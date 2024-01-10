@@ -12,7 +12,10 @@
 ## Makefile
 ##
 
-SRC =	src/secured.c
+SRC =	src/secured.c \
+		src/table.c \
+		src/shared/my_putstr.c \
+		src/shared/my_strlen.c \
 
 MAIN = src/main.c
 
