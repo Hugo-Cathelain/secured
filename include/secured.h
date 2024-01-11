@@ -10,10 +10,13 @@
 
     #define NULL 0
 
-typedef struct {
-    int hash;
-    char *data;
-    hashtable_t *next;
+    #include <stdlib.h>
+    #include <stdio.h>
+
+typedef struct ht{
+    int *hash;
+    char **data;
+    struct ht *next;
 } hashtable_t;
 
 // Hash function
