@@ -51,5 +51,6 @@ void ht_dump(hashtable_t *ht)
             my_putstr(ht->data);
             my_putstr("\n");
         ht = ht->next;
+        }
     }
 }

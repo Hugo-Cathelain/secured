@@ -32,6 +32,7 @@ all: $(NAME)
 $(NAME):
 	gcc -c $(SRC)
 	ar rcs $(NAME) *.o
+	rm -f *.o
 
 clean:
 	rm -f $(OBJ)

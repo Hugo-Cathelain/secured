@@ -13,7 +13,7 @@
     #include <stdlib.h>
     #include <stdio.h>
 
-typedef struct ht{
+typedef struct ht {
     int *hash;
     char **data;
     struct ht *next;
