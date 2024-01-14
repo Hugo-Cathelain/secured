@@ -10,6 +10,8 @@ hashtable_t *new_hashtable(int(*hash)(char *, int), int len)
 {
     hashtable_t *ht = malloc(sizeof(hashtable_t));
 
+    if (len < 1)
+        return NULL;
     ht->hash = hash;
     ht->ht = malloc(sizeof(link_t) * len + 1);
     ht->ht[len] = NULL;
@@ -46,7 +48,7 @@ static void print(link_t *ht)
 {
     link_t *tmp = ht;
 
-    while (tmp->next && tmp->code && tmp->data) {
+    while (tmp && tmp->code) {
         my_putstr("> ");
         my_putnbr(tmp->code);
         my_putstr(" - ");

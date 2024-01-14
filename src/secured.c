@@ -14,18 +14,7 @@ int hash(char *key, int len)
         hash_value = (hash_value * 31) + *key;
         key++;
     }
-    return ((hash_value % len + len) % len);
-}
-
-static int code(char *key, int len)
-{
-    int code = 0;
-
-    while (*key) {
-        code = (code * 31) + key;
-        key++;
-    }
-    return (code % len + len);
+    return (hash_value % len + len);
 }
 
 static link_t *insert(link_t *ht, char *key, char *value, int len)
@@ -40,13 +29,13 @@ static link_t *insert(link_t *ht, char *key, char *value, int len)
         ht->next = NULL;
     }
     ht->data = my_strdup(value);
-    ht->code = code(key, len);
+    ht->code = hash(key, len);
     return tmp;
 }
 
 int ht_insert(hashtable_t *ht, char *key, char *value)
 {
-    int index = ht->hash(key, ht->size);
+    int index = ht->hash(key, ht->size) % ht->size;
 
     ht->ht[index] = insert(ht->ht[index], key, value, ht->size);
     return 0;
@@ -62,7 +51,6 @@ static int destroy_this(link_t *ht, int cod)
         if (cod == tmp->code) {
             res = my_strdup(tmp->data);
             free(tmp->data);
-            ht->code = NULL;
             prev->next = prev ? tmp->next : NULL;
             destroy(tmp);
             return 0;
@@ -90,7 +78,7 @@ static char *serch(struct ll *ht, int cod)
 
 int ht_delete(hashtable_t *ht, char *key)
 {
-    int cod = code(key, ht->size);
+    int cod = hash(key, ht->size);
     char *res = NULL;
 
     for (int i = 0; ht->ht[i]; i++) {
@@ -98,12 +86,12 @@ int ht_delete(hashtable_t *ht, char *key)
         if (res)
             return destroy_this(ht->ht[i], cod);
     }
-    return res;
+    return 0;
 }
 
 char *ht_search(hashtable_t *ht, char *key)
 {
-    int cod = code(key, ht->size);
+    int cod = hash(key, ht->size);
     char *res = NULL;
 
     for (int i = 0; ht->ht[i]; i++) {
