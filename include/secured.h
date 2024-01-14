@@ -13,10 +13,15 @@
     #include <stdlib.h>
     #include <stdio.h>
 
-typedef struct ht {
-    int *hash;
-    char **data;
-    struct ht *next;
+typedef struct ll {
+    int code;
+    char *data;
+    struct ll *next;
+} link_t;
+
+typedef struct {
+    int (*hash)(char *, int);
+    link_t **ht;
 } hashtable_t;
 
 // Hash function

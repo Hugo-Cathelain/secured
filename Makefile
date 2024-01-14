@@ -21,7 +21,7 @@ MAIN = src/main.c
 
 OBJ = $(SRC:.c=.o)
 
-NAME = libhastable.a
+NAME = libhashtable.a
 
 FLAGS = -Wall -Wextra
 

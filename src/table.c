@@ -8,49 +8,59 @@
 
 hashtable_t *new_hashtable(int(*hash)(char *, int), int len)
 {
-    hashtable_t *ht = NULL;
-    hashtable_t *begin = ht;
+    hashtable_t *ht = malloc(sizeof(hashtable_t));
 
-    ht->next = NULL;
+    ht->hash = hash;
+    ht->ht = malloc(sizeof(link_t) * len + 1);
+    ht->ht[len] = NULL;
     for (int i = 0; i < len; i++) {
-        ht = malloc(sizeof(hashtable_t));
-        ht = ht->next;
-        ht->next = NULL;
+        ht->ht[i] = malloc(sizeof(link_t));
     }
-    return begin;
+    return ht;
 }
 
-void delete_hashtable(hashtable_t *ht)
+static void destroy(link_t *ht)
 {
-    hashtable_t *prev = NULL;
+    link_t *prev = NULL;
 
     while (ht->next) {
         prev = ht;
         ht = ht->next;
-        prev->next = NULL;
-        free(prev->data);
+        free(prev);
     }
-    ht->next = NULL;
-    free(ht->data);
+    free(ht);
+}
+
+void delete_hashtable(hashtable_t *ht)
+{
+    for (int i = 0; ht->ht[i]; i++) {
+        destroy(ht->ht[i]);
+        free(ht->ht[i]);
+    }
+    free(ht->ht);
+    free(ht);
+}
+
+static void print(link_t *ht)
+{
+    link_t *tmp = ht;
+
+    while (tmp->next && tmp->code && tmp->data) {
+        my_putstr("> ");
+        my_punbr(tmp->code);
+        my_putstr(" - ");
+        my_putstr(tmp->data);
+        my_putstr("\n");
+        tmp = tmp->next;
+    }
 }
 
 void ht_dump(hashtable_t *ht)
 {
-    int i = 0;
-
-    if (!ht)
-        return;
-    for (int i = 0; ht->next != 0; i++) {
+    for (int i = 0; ht->ht[i]; i++) {
         my_putstr("[");
         my_putstr(i);
         my_putstr("]:\n");
-        if (ht->hash) {
-            my_putstr("> ");
-            my_putstr(ht->hash);
-            my_putstr(" - ");
-            my_putstr(ht->data);
-            my_putstr("\n");
-        ht = ht->next;
-        }
+        print(ht->ht[i]);
     }
 }
