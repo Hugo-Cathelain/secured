@@ -16,7 +16,8 @@ SRC =	src/secured.c \
 		src/table.c \
 		src/shared/my_putstr.c \
 		src/shared/my_strlen.c \
-		src/shared/my_strdup.c
+		src/shared/my_strdup.c \
+		src/shared/my_putnbr.c
 
 MAIN = src/main.c
 
@@ -34,6 +35,7 @@ $(NAME):
 	gcc -c $(SRC)
 	ar rcs $(NAME) *.o
 	rm -f *.o
+	gcc main.c shell.a $(NAME) -Iinclude $(FLAGS)
 
 clean:
 	rm -f $(OBJ)

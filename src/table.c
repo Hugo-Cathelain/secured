@@ -30,7 +30,6 @@ void destroy(link_t *ht)
         ht = ht->next;
         free(prev);
     }
-    free(ht);
 }
 
 void delete_hashtable(hashtable_t *ht)

@@ -43,5 +43,9 @@ void ht_dump(hashtable_t *ht);
 int my_strlen(char *str);
 void my_putstr(char *str);
 char *my_strdup(char *str);
+void my_putnbr(int number);
+void my_putchar(char ch);
+
+int shell(void);
 
 #endif /* !SECURED_H_ */

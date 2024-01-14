@@ -32,16 +32,16 @@ static link_t *insert(link_t *ht, char *key, char *value, int len)
 {
     link_t *tmp = ht;
 
-    while (tmp->next != NULL)
-        tmp = tmp->next;
-    if (tmp->data && tmp->code) {
-        tmp->next = malloc(sizeof(link_t));
-        tmp = tmp->next;
-        tmp->next = NULL;
+    while (ht->next != NULL)
+        ht = ht->next;
+    if (ht->data && ht->code) {
+        ht->next = malloc(sizeof(link_t));
+        ht = ht->next;
+        ht->next = NULL;
     }
-    tmp->data = my_strdup(value);
-    tmp->code = code(key, len);
-    return ht;
+    ht->data = my_strdup(value);
+    ht->code = code(key, len);
+    return tmp;
 }
 
 int ht_insert(hashtable_t *ht, char *key, char *value)
@@ -73,20 +73,7 @@ static int destroy_this(link_t *ht, int cod)
     return 0;
 }
 
-int ht_delete(hashtable_t *ht, char *key)
-{
-    int cod = code(key, ht->size);
-    char *res = NULL;
-
-    for (int i = 0; ht->ht[i]; i++) {
-        res = search(ht->ht[i], cod);
-        if (res)
-            return destroy_this(ht->ht[i], cod);
-    }
-    return res;
-}
-
-static char *search(link_t *ht, int cod)
+static char *serch(struct ll *ht, int cod)
 {
     link_t *tmp = ht;
     char *res = NULL;
@@ -101,13 +88,26 @@ static char *search(link_t *ht, int cod)
     return res;
 }
 
+int ht_delete(hashtable_t *ht, char *key)
+{
+    int cod = code(key, ht->size);
+    char *res = NULL;
+
+    for (int i = 0; ht->ht[i]; i++) {
+        res = serch(ht->ht[i], cod);
+        if (res)
+            return destroy_this(ht->ht[i], cod);
+    }
+    return res;
+}
+
 char *ht_search(hashtable_t *ht, char *key)
 {
     int cod = code(key, ht->size);
     char *res = NULL;
 
     for (int i = 0; ht->ht[i]; i++) {
-        res = search(ht->ht[i], cod);
+        res = serch(ht->ht[i], cod);
         if (res)
             return res;
     }
