@@ -52,9 +52,38 @@ int ht_insert(hashtable_t *ht, char *key, char *value)
     return 0;
 }
 
+static int destroy_this(link_t *ht, int cod)
+{
+    link_t *tmp = ht;
+    link_t *prev = NULL;
+    char *res = NULL;
+
+    while (tmp->next) {
+        if (cod == tmp->code) {
+            res = my_strdup(tmp->data);
+            free(tmp->data);
+            ht->code = NULL;
+            prev->next = prev ? tmp->next : NULL;
+            destroy(tmp);
+            return 0;
+        }
+        prev = tmp;
+        tmp = tmp->next;
+    }
+    return 0;
+}
+
 int ht_delete(hashtable_t *ht, char *key)
 {
-    return 0;
+    int cod = code(key, ht->size);
+    char *res = NULL;
+
+    for (int i = 0; ht->ht[i]; i++) {
+        res = search(ht->ht[i], cod);
+        if (res)
+            return destroy_this(ht->ht[i], cod);
+    }
+    return res;
 }
 
 static char *search(link_t *ht, int cod)

@@ -31,6 +31,7 @@ int hash(char *key, int len);
 // Create destroy table
 hashtable_t *new_hashtable(int(*hash)(char *, int), int len);
 void delete_hashtable(hashtable_t *ht);
+void destroy(link_t *ht);
 
 // Handle table
 int ht_insert(hashtable_t *ht, char *key, char *value);

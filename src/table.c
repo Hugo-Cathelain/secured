@@ -21,7 +21,7 @@ hashtable_t *new_hashtable(int(*hash)(char *, int), int len)
     return ht;
 }
 
-static void destroy(link_t *ht)
+void destroy(link_t *ht)
 {
     link_t *prev = NULL;
 
