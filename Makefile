@@ -16,6 +16,7 @@ SRC =	src/secured.c \
 		src/table.c \
 		src/shared/my_putstr.c \
 		src/shared/my_strlen.c \
+		src/shared/my_strdup.c
 
 MAIN = src/main.c
 

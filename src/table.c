@@ -13,8 +13,10 @@ hashtable_t *new_hashtable(int(*hash)(char *, int), int len)
     ht->hash = hash;
     ht->ht = malloc(sizeof(link_t) * len + 1);
     ht->ht[len] = NULL;
+    ht->size = len;
     for (int i = 0; i < len; i++) {
         ht->ht[i] = malloc(sizeof(link_t));
+        ht->ht[i]->next = NULL;
     }
     return ht;
 }
@@ -47,7 +49,7 @@ static void print(link_t *ht)
 
     while (tmp->next && tmp->code && tmp->data) {
         my_putstr("> ");
-        my_punbr(tmp->code);
+        my_putnbr(tmp->code);
         my_putstr(" - ");
         my_putstr(tmp->data);
         my_putstr("\n");
@@ -59,7 +61,7 @@ void ht_dump(hashtable_t *ht)
 {
     for (int i = 0; ht->ht[i]; i++) {
         my_putstr("[");
-        my_putstr(i);
+        my_putnbr(i);
         my_putstr("]:\n");
         print(ht->ht[i]);
     }

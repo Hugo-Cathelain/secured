@@ -22,6 +22,7 @@ typedef struct ll {
 typedef struct {
     int (*hash)(char *, int);
     link_t **ht;
+    int size;
 } hashtable_t;
 
 // Hash function
@@ -40,5 +41,6 @@ void ht_dump(hashtable_t *ht);
 // Shared functions
 int my_strlen(char *str);
 void my_putstr(char *str);
+char *my_strdup(char *str);
 
 #endif /* !SECURED_H_ */
