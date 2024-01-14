@@ -14,7 +14,7 @@ int hash(char *key, int len)
         hash_value = (hash_value * 31) + *key;
         key++;
     }
-    return (hash_value % len + len);
+    return (hash_value);
 }
 
 static link_t *insert(link_t *ht, char *key, char *value, int len)
