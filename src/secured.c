@@ -11,7 +11,7 @@ int hash(char *key, int len)
     int hash_value = 0;
 
     while (*key) {
-        hash_value = (hash_value * 31) + *key;
+        hash_value = (hash_value * (31 * *key)) + *key * *key;
         key++;
     }
     return (hash_value);
