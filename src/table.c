@@ -27,7 +27,7 @@ void destroy(link_t *ht)
 {
     link_t *prev = NULL;
 
-    while (ht->next) {
+    while (ht) {
         prev = ht;
         ht = ht->next;
         free(prev);
@@ -36,10 +36,8 @@ void destroy(link_t *ht)
 
 void delete_hashtable(hashtable_t *ht)
 {
-    for (int i = 0; ht->ht[i]; i++) {
+    for (int i = 0; ht->ht[i]; i++)
         destroy(ht->ht[i]);
-        free(ht->ht[i]);
-    }
     free(ht->ht);
     free(ht);
 }
