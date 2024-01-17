@@ -19,8 +19,6 @@ SRC =	src/secured.c \
 		src/shared/my_strdup.c \
 		src/shared/my_putnbr.c
 
-MAIN = src/main.c
-
 OBJ = $(SRC:.c=.o)
 
 NAME = libhashtable.a
@@ -35,7 +33,6 @@ $(NAME):
 	gcc -c $(SRC)
 	ar rcs $(NAME) *.o
 	rm -f *.o
-	gcc main.c shell.a $(NAME) -Iinclude $(FLAGS)
 
 clean:
 	rm -f $(OBJ)
