@@ -11,7 +11,7 @@ int hash(char *key, int len)
     int hash_value = 0;
 
     while (*key) {
-        hash_value = (hash_value * (31 * *key)) + *key * *key;
+        hash_value = (hash_value * 31) + *key;
         key++;
     }
     return (hash_value);
@@ -41,24 +41,38 @@ int ht_insert(hashtable_t *ht, char *key, char *value)
     return 0;
 }
 
-static int destroy_this(link_t *ht, int cod)
+static link_t *cut_that(link_t *ht, link_t *prev, link_t *tmp, int cod)
 {
-    link_t *tmp = ht;
-    link_t *prev = NULL;
-    char *res = NULL;
-
-    while (tmp->next) {
+    while (tmp) {
         if (cod == tmp->code) {
-            res = my_strdup(tmp->data);
             free(tmp->data);
-            prev->next = prev ? tmp->next : NULL;
-            destroy(tmp);
-            return 0;
+            prev->next = tmp->next;
+            free(tmp);
+            return ht;
         }
         prev = tmp;
         tmp = tmp->next;
     }
-    return 0;
+    return ht;
+}
+
+static link_t *destroy_this(link_t *ht, int cod)
+{
+    link_t *tmp = ht;
+    link_t *prev = NULL;
+
+    if (cod == tmp->code) {
+        if (!ht->next) {
+            ht->next = malloc(sizeof(link_t));
+            ht->next->code = 0;
+            ht->next->data = NULL;
+        }
+        ht = ht->next;
+        free(tmp->data);
+        free(tmp);
+        return ht;
+    }
+    return cut_that(ht, prev, tmp, cod);
 }
 
 static char *serch(struct ll *ht, int cod)
@@ -66,7 +80,7 @@ static char *serch(struct ll *ht, int cod)
     link_t *tmp = ht;
     char *res = NULL;
 
-    while (tmp->next) {
+    while (tmp) {
         if (cod == tmp->code) {
             res = my_strdup(tmp->data);
             return res;
@@ -83,8 +97,10 @@ int ht_delete(hashtable_t *ht, char *key)
 
     for (int i = 0; ht->ht[i]; i++) {
         res = serch(ht->ht[i], cod);
-        if (res)
-            return destroy_this(ht->ht[i], cod);
+        if (res) {
+            ht->ht[i] = destroy_this(ht->ht[i], cod);
+            return 0;
+        }
     }
     return 0;
 }
