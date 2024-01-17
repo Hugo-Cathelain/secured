@@ -8,10 +8,11 @@
 
 int hash(char *key, int len)
 {
-    int hash_value = 0;
+    int hash_value = 31;
 
     while (*key) {
-        hash_value = (hash_value * 31) + *key;
+        hash_value = ((hash_value * (31 * *key)) / *key) + *key * *key;
+        hash_value = hash_value << (*key % 31);
         key++;
     }
     return (hash_value);
