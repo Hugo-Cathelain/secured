@@ -13,14 +13,14 @@ int hash(char *key, int len)
     if (len < 1 || key == NULL)
         return NULL;
     while (*key) {
-        hash_value = ((hash_value * (31 * *key + len)) / *key) + *key * *key;
         hash_value = hash_value << (*key % 7);
+        hash_value = ((hash_value * (31 * *key + len)) / *key) + *key * *key;
         key++;
     }
     return (hash_value);
 }
 
-static link_t *insert(link_t *ht, char *key, char *value, int len)
+static link_t *insert(link_t *ht, int shah, char *value, int len)
 {
     link_t *tmp = ht;
 
@@ -32,18 +32,20 @@ static link_t *insert(link_t *ht, char *key, char *value, int len)
         ht->next = NULL;
     }
     ht->data = my_strdup(value);
-    ht->code = hash(key, len);
+    ht->code = shah;
     return tmp;
 }
 
 int ht_insert(hashtable_t *ht, char *key, char *value)
 {
     int index;
+    int sz;
 
     if (!ht || key == NULL || value == NULL)
         return 84;
     index = ht->hash(key, ht->size) % ht->size;
-    ht->ht[index] = insert(ht->ht[index], key, value, ht->size);
+    sz = ht->size;
+    ht->ht[index] = insert(ht->ht[index], ht->hash(key, sz), value, ht->size);
     return 0;
 }
 
