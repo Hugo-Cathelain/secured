@@ -14,7 +14,7 @@ int hash(char *key, int len)
         return NULL;
     while (*key) {
         hash_value = ((hash_value * (31 * *key)) / *key) + *key * *key;
-        hash_value = hash_value << (*key % 31);
+        hash_value = hash_value << (*key % 7);
         key++;
     }
     return (hash_value);
@@ -103,7 +103,7 @@ int ht_delete(hashtable_t *ht, char *key)
 
     if (key == NULL || !ht)
         return 84;
-    cod = hash(key, ht->size);
+    cod = ht->hash(key, ht->size);
     for (int i = 0; ht->ht[i]; i++) {
         res = serch(ht->ht[i], cod);
         if (res) {
@@ -121,7 +121,7 @@ char *ht_search(hashtable_t *ht, char *key)
 
     if (key == NULL || !ht)
         return 84;
-    cod = hash(key, ht->size);
+    cod = ht->hash(key, ht->size);
     for (int i = 0; ht->ht[i]; i++) {
         res = serch(ht->ht[i], cod);
         if (res)
