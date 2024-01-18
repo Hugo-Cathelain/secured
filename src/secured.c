@@ -120,7 +120,7 @@ char *ht_search(hashtable_t *ht, char *key)
     char *res = NULL;
 
     if (key == NULL || !ht)
-        return 84;
+        return NULL;
     cod = ht->hash(key, ht->size);
     for (int i = 0; ht->ht[i]; i++) {
         res = serch(ht->ht[i], cod);

@@ -10,7 +10,7 @@ hashtable_t *new_hashtable(int(*hash)(char *, int), int len)
 {
     hashtable_t *ht = malloc(sizeof(hashtable_t));
 
-    if (len < 1)
+    if (len < 1 || !hash)
         return NULL;
     ht->hash = hash;
     ht->ht = malloc(sizeof(link_t) * len + 1);
