@@ -17,6 +17,8 @@ int hash(char *key, int len)
         hash_value = ((hash_value * (31 * *key + len)) / *key) + *key * *key;
         key++;
     }
+    if (hash_value < 0)
+        hash_value *= -1;
     return (hash_value);
 }
 
