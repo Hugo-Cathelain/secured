@@ -10,6 +10,8 @@ int hash(char *key, int len)
 {
     int hash_value = 31;
 
+    if (len < 1 || key == NULL)
+        return NULL;
     while (*key) {
         hash_value = ((hash_value * (31 * *key)) / *key) + *key * *key;
         hash_value = hash_value << (*key % 31);
@@ -36,8 +38,11 @@ static link_t *insert(link_t *ht, char *key, char *value, int len)
 
 int ht_insert(hashtable_t *ht, char *key, char *value)
 {
-    int index = ht->hash(key, ht->size) % ht->size;
+    int index;
 
+    if (!ht || key == NULL || value == NULL)
+        return 84;
+    index = ht->hash(key, ht->size) % ht->size;
     ht->ht[index] = insert(ht->ht[index], key, value, ht->size);
     return 0;
 }
@@ -93,9 +98,12 @@ static char *serch(struct ll *ht, int cod)
 
 int ht_delete(hashtable_t *ht, char *key)
 {
-    int cod = hash(key, ht->size);
+    int cod;
     char *res = NULL;
 
+    if (key == NULL || !ht)
+        return 84;
+    cod = hash(key, ht->size);
     for (int i = 0; ht->ht[i]; i++) {
         res = serch(ht->ht[i], cod);
         if (res) {
@@ -108,9 +116,12 @@ int ht_delete(hashtable_t *ht, char *key)
 
 char *ht_search(hashtable_t *ht, char *key)
 {
-    int cod = hash(key, ht->size);
+    int cod;
     char *res = NULL;
 
+    if (key == NULL || !ht)
+        return 84;
+    cod = hash(key, ht->size);
     for (int i = 0; ht->ht[i]; i++) {
         res = serch(ht->ht[i], cod);
         if (res)

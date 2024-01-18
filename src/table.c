@@ -36,6 +36,8 @@ void destroy(link_t *ht)
 
 void delete_hashtable(hashtable_t *ht)
 {
+    if (!ht)
+        return;
     for (int i = 0; ht->ht[i]; i++)
         destroy(ht->ht[i]);
     free(ht->ht);
@@ -58,6 +60,8 @@ static void print(link_t *ht)
 
 void ht_dump(hashtable_t *ht)
 {
+    if (!ht)
+        return;
     for (int i = 0; ht->ht[i]; i++) {
         my_putstr("[");
         my_putnbr(i);
