@@ -13,7 +13,7 @@ int hash(char *key, int len)
     if (len < 1 || key == NULL)
         return NULL;
     while (*key) {
-        hash_value = ((hash_value * (31 * *key)) / *key) + *key * *key;
+        hash_value = ((hash_value * (31 * *key + len)) / *key) + *key * *key;
         hash_value = hash_value << (*key % 7);
         key++;
     }
